@@ -1,0 +1,27 @@
+{
+        "name": "Open WebUI",
+        "short_name": "Open WebUI",
+        "description": "User-friendly AI interface for LLMs",
+        "start_url": "/",
+        "scope": "/",
+        "display": "standalone",
+        "orientation": "portrait",
+        "theme_color": "#171717",
+        "background_color": "#171717",
+        "lang": "en",
+        "icons": [
+                {
+                        "src": "/icon-192.png",
+                        "sizes": "192x192",
+                        "type": "image/png",
+                        "purpose": "any"
+                },
+                {
+                        "src": "/icon-512.png",
+                        "sizes": "512x512",
+                        "type": "image/png",
+                        "purpose": "any maskable"
+                }
+        ],
+        "categories": ["productivity", "utilities"]
+}

@@ -1,0 +1,5 @@
+.svelte-kit
+.vercel/*
+!.vercel/project.json
+node_modules
+build

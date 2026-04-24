@@ -1,0 +1,50 @@
+<script lang="ts">
+    import { DropdownMenu } from 'bits-ui';
+    import { flyAndScale } from '$lib/utils/transitions';
+    import { models } from '$lib/stores';
+
+    import Check from '$lib/components/icons/Check.svelte';
+    import ChevronDown from '$lib/components/icons/ChevronDown.svelte';
+
+    export let value = '';
+    export let placeholder = 'Select a model';
+    export let items: { value: string; label: string; info?: any }[] = [];
+
+    let open = false;
+    $: selectedLabel = items.find((item) => item.value === value)?.label ?? '';
+</script>
+
+<DropdownMenu.Root bind:open>
+    <DropdownMenu.Trigger class="flex w-full items-center outline-none">
+        <span class="text-left truncate font-normal text-gray-900 dark:text-white"
+              style="font-size: 18px; margin-right: 2px; padding-left: 12px">
+            {selectedLabel || placeholder}
+        </span>
+        <ChevronDown className="w-4 h-4 shrink-0 text-gray-500 ml-1 transition-transform {open ? 'rotate-180' : ''}" strokeWidth="2.5" />
+    </DropdownMenu.Trigger>
+
+    <DropdownMenu.Content
+        class="z-50 min-w-[220px] p-1 rounded-2xl bg-white dark:bg-[#141414] shadow-lg border border-gray-200 dark:border-[#272727] outline-none"
+        transition={flyAndScale}
+        sideOffset={5}
+        align="start"
+    >
+        <div class="max-h-72 overflow-y-auto">
+            {#each items as item}
+                <DropdownMenu.Item
+                    class="relative flex items-center px-4 py-2 text-sm cursor-default select-none outline-none rounded-xl hover:bg-[#f2f2f2] dark:hover:bg-[#272727]"
+                    on:click={() => { value = item.value; open = false; }}
+                >
+                    <div class="flex-1 line-clamp-1 font-normal">
+                        {item.label}
+                    </div>
+                    {#if value === item.value}
+                        <div class="ml-auto shrink-0"><Check /></div>
+                    {/if}
+                </DropdownMenu.Item>
+            {:else}
+                <div class="px-4 py-2 text-sm text-gray-500">Brak wyników</div>
+            {/each}
+        </div>
+    </DropdownMenu.Content>
+</DropdownMenu.Root>
