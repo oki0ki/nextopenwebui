@@ -1,4 +1,6 @@
-import { writable } from 'svelte/store';
+'use client';
+
+import { create } from 'zustand';
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info' | 'default';
 
@@ -9,7 +11,20 @@ export interface Notification {
 	duration: number;
 }
 
-export const notifications = writable<Notification[]>([]);
+const notificationsStore = create<{ list: Notification[] }>(() => ({ list: [] }));
+
+export const notifications = {
+	set: (list: Notification[]) => notificationsStore.setState({ list }),
+	update: (fn: (l: Notification[]) => Notification[]) =>
+		notificationsStore.setState((s) => ({ list: fn(s.list) })),
+	subscribe: (cb: (l: Notification[]) => void) => {
+		cb(notificationsStore.getState().list);
+		return notificationsStore.subscribe((s, prev) => {
+			if (s.list !== prev.list) cb(s.list);
+		});
+	},
+	get: () => notificationsStore.getState().list
+};
 
 export function removeNotification(_id: string) {}
 
